@@ -16,10 +16,12 @@ namespace EF07_DataContext
         {
             using (var context = new Northwind())
             {
-                // object-based query.
-                var queryLINQ = context.Customers.Where(c => c.CustomerID == "ALFKI").ToList();
-                var queryFind = context.Customers.Find("ALFKI");
+                #region Sample1 - object-based query.
+                //var queryLINQ = context.Customers.Where(c => c.CustomerID == "ALFKI").ToList();
+                //var queryFind = context.Customers.Find("ALFKI");
+                #endregion
 
+                #region Sample2 - Lazy loading
                 //Stopwatch loadingWatch = new Stopwatch();
 
                 //loadingWatch.Start();
@@ -31,7 +33,10 @@ namespace EF07_DataContext
                 //    queryOrder.Order_Details.AsQueryable().Load(); // Lazy Loading.
 
                 //loadingWatch.Stop();
+
                 //Console.WriteLine("Lazy Loading for Order.Order_Details: {0}ms", loadingWatch.ElapsedMilliseconds);
+
+
                 //loadingWatch.Reset();
                 //loadingWatch.Start();
 
@@ -43,64 +48,76 @@ namespace EF07_DataContext
 
                 //loadingWatch.Stop();
                 //Console.WriteLine("Eager Loading for Order.Order_Details: {0}ms", loadingWatch.ElapsedMilliseconds);
+                #endregion
 
+
+                #region Sample3 - Query by T-SQL and Stored Procedure
                 // query by SQL with named parameter.
-                var querySql = context.Database.SqlQuery<Customer>("SELECT * FROM Customers WHERE CustomerID = @id", new SqlParameter("@id", "ALFKI"));
+                //var querySql = context.Database.SqlQuery<Customer>("SELECT * FROM Customers WHERE CustomerID = @id", new SqlParameter("@id", "ALFKI"));
+
+                //foreach (var item in querySql)
+                //    Console.WriteLine("Name: {0}, Contact: {1}", item.CompanyName, item.ContactName);
 
                 // query stored procedure with named parameter
-                var querySP = context.Database.SqlQuery<CustOrderHistDTO>("EXEC dbo.CustOrderHist @CustomerID", new SqlParameter("@CustomerID", "ALFKI"));
+                //var querySP = context.Database.SqlQuery<CustOrderHistDTO>("EXEC dbo.CustOrderHist @CustomerID", new SqlParameter("@CustomerID", "ALFKI"));
 
                 //foreach (var item in querySP)
                 //    Console.WriteLine("Name: {0}, Total: {1}", item.ProductName, item.Total);
+                #endregion
 
-                // query by low-level context.
-                var rawSqlCmd = context.Database.Connection.CreateCommand();
-                rawSqlCmd.CommandText = "dbo.CustOrderHist";
-                rawSqlCmd.CommandType = CommandType.StoredProcedure;
-                rawSqlCmd.Parameters.Add(new SqlParameter("@CustomerID", "ALFKI"));
+                #region Sample4 - Query by low-level context.
+                //var rawSqlCmd = context.Database.Connection.CreateCommand();
+                //rawSqlCmd.CommandText = "dbo.CustOrderHist";
+                //rawSqlCmd.CommandType = CommandType.StoredProcedure;
+                //rawSqlCmd.Parameters.Add(new SqlParameter("@CustomerID", "ALFKI"));
 
-                rawSqlCmd.Connection.Open();
-                
-                var reader = rawSqlCmd.ExecuteReader();
+                //rawSqlCmd.Connection.Open();
+
+                //var reader = rawSqlCmd.ExecuteReader();
 
                 //while (reader.Read())
                 //    Console.WriteLine("Name: {0}, Total: {1}", reader.GetValue(0), reader.GetValue(1));
 
-                rawSqlCmd.Connection.Close();
+                //rawSqlCmd.Connection.Close();
+                #endregion
 
-                // control entity state.
-                var querySqlES = context.Customers.Where(c => c.CustomerID == "ALFKI");
-                var customerItem = querySqlES.First();
+                #region Sample5 - Control entity state.
+                //var querySqlES = context.Customers.Where(c => c.CustomerID == "ALFKI");
+                //var customerItem = querySqlES.First();
 
                 //customerItem.Country = "Taiwan";
-                //Console.WriteLine("Original Value: {0}, Current Value: {1}, Database Value: {2}",
+                //Console.WriteLine("Original Value: {0}, \r\nCurrent Value: {1}, \r\nDatabase Value: {2}",
                 //   context.Entry(customerItem).Property(c => c.Country).OriginalValue,
                 //   context.Entry(customerItem).Property(c => c.Country).CurrentValue,
                 //   context.Entry(customerItem).GetDatabaseValues().GetValue<string>("Country"));
 
+                #region Sample5-1 - Validation errors
                 //customerItem.CustomerID = null;
                 //// get entity errors.
-                //var validationResult = context.Entry(customerItem).GetValidationResult();
+                ////var validationResult = context.Entry(customerItem).GetValidationResult();
                 //// get property validation errors.
-                //var errors = context.Entry(customerItem).Property(c => c.CustomerID).GetValidationErrors();
+                ////var errors = context.Entry(customerItem).Property(c => c.CustomerID).GetValidationErrors();
 
                 //customerItem.CustomerID = "ALFKI";
 
-                // test IValidatableObject implementation (refer Customer.cs file).
-                customerItem.Country = "KOREA";
-                var countryValidationResult = context.Entry(customerItem).GetValidationResult();
+                //// test IValidatableObject implementation (refer Customer.cs file).
+                //customerItem.Country = "KOREA";
+                //var countryValidationResult = context.Entry(customerItem).GetValidationResult();
 
-                Console.WriteLine("Entity Validation Errors:");
+                //Console.WriteLine("Entity Validation Errors:");
 
-                if (countryValidationResult.IsValid)
-                    Console.WriteLine("PASS!!");
-                else
-                {
-                    foreach (var error in countryValidationResult.ValidationErrors)
-                        Console.WriteLine("error: {0}", error.ErrorMessage);
-                }
+                //if (countryValidationResult.IsValid)
+                //    Console.WriteLine("PASS!!");
+                //else
+                //{
+                //    foreach (var error in countryValidationResult.ValidationErrors)
+                //        Console.WriteLine("error: {0}", error.ErrorMessage);
+                //}
+                #endregion
+
+                #endregion
+
             }
-                       
 
             Console.Read();
         }
