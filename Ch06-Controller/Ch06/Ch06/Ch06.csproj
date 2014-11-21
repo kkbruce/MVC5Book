@@ -461,6 +461,7 @@
     <Content Include="Views\VtoC\ViewModelModelBinding.cshtml" />
     <Content Include="Views\CtoV\Index.cshtml" />
     <Content Include="Views\VtoC\Index.cshtml" />
+    <Content Include="Views\MvcType\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -18,6 +18,11 @@ namespace Ch06.Controllers
 {
     public class MvcTypeController : Controller
     {
+
+        public ActionResult Index()
+        {
+            return View();
+        }
         //
         // GET: /MvcType/
 
