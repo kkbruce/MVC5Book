@@ -25,6 +25,9 @@
                     <li>@Html.ActionLink("首頁", "Index", "Home")</li>
                     <li>@Html.ActionLink("關於", "About", "Home")</li>
                     <li>@Html.ActionLink("連絡方式", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("CtoV", "Index", "CtoV")</li>
+                    <li>@Html.ActionLink("VtoC", "Index", "VtoC")</li>
+                    <li>@Html.ActionLink("Metadata", "Index", "Products")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -39,6 +42,7 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

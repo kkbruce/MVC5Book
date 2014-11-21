@@ -17,21 +17,22 @@ namespace Ch06.Models
     {
         public class ProductMD
         {
+            //[Display(Name="編號")]
             public int ProductID { get; set; }
-            [Display(Name = "產品名稱")]
+            //[Display(Name = "產品名稱")]
             //[CustomValidation(typeof(StringValidator), "Invalid")]
             //[Required(
             //    ErrorMessageResourceType = typeof(ModelResource),
             //    ErrorMessageResourceName = "ProductName")]
-            [Required(
-                ErrorMessageResourceType = typeof(ProductResource),
-                ErrorMessageResourceName = "ProductName")]
+            //[Required(
+            //    ErrorMessageResourceType = typeof(ProductResource),
+            //    ErrorMessageResourceName = "ProductName")]
             public string ProductName { get; set; }
             public Nullable<int> SupplierID { get; set; }
             public Nullable<int> CategoryID { get; set; }
             public string QuantityPerUnit { get; set; }
             //[Price(MinPrice = 10)]
-            //Remote("Price", "Validations")]
+            //[Remote("Price", "Validations")]
             public Nullable<decimal> UnitPrice { get; set; }
             public Nullable<short> UnitsInStock { get; set; }
             public Nullable<short> UnitsOnOrder { get; set; }

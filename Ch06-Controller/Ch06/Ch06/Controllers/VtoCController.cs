@@ -23,6 +23,7 @@ namespace Ch06.Controllers
             return View();
         }
 
+        // 具型別
         public ActionResult DemoRouteData(int id)
         {
             ViewBag.id = id;
